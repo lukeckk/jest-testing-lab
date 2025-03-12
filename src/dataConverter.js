@@ -6,7 +6,7 @@ import xml2js from 'xml2js';
  * @param {Object|Array} json - The JSON object or array to convert.
  * @returns {string} - The CSV representation of the JSON data.
  */
-function jsonToCsv(json) {
+export function jsonToCsv(json) {
     const array = Array.isArray(json) ? json : [json];
     const headers = Object.keys(array[0]);
     const csv = [
@@ -25,7 +25,7 @@ function jsonToCsv(json) {
  * @param {string} csv - The CSV string to convert.
  * @returns {Array<Object>} - The JSON array representation of the CSV data.
  */
-function csvToJson(csv) {
+export function csvToJson(csv) {
     const [headerLine, ...rows] = csv.split('\n').filter(line => line.trim());
     const headers = headerLine.split(',');
     return rows.map(row =>
@@ -42,7 +42,7 @@ function csvToJson(csv) {
  * @param {Object} json - The JSON object to convert.
  * @returns {Promise<string>} - A promise that resolves to the XML string.
  */
-async function jsonToXml(json) {
+export async function jsonToXml(json) {
     const builder = new xml2js.Builder();
     return builder.buildObject(json);
 }
@@ -53,8 +53,8 @@ async function jsonToXml(json) {
  * @param {string} xml - The XML string to convert.
  * @returns {Promise<Object>} - A promise that resolves to the JSON object.
  */
-async function xmlToJson(xml) {
-    const parser = new xml2js.Parser({explicitArray : false});
+export async function xmlToJson(xml) {
+    const parser = new xml2js.Parser({ explicitArray: false });
     return parser.parseStringPromise(xml);
 }
 
@@ -67,7 +67,7 @@ async function xmlToJson(xml) {
  * @returns {Promise<string|Object|Array>} - A promise that resolves to the converted data.
  * @throws {Error} - If the conversion between the specified formats is not supported.
  */
-async function convertData(data, fromFormat, toFormat) {
+export async function convertData(data, fromFormat, toFormat) {
     if (fromFormat === 'csv' && toFormat === 'json') {
         return csvToJson(data);
     }
@@ -83,4 +83,4 @@ async function convertData(data, fromFormat, toFormat) {
     throw new Error(`Conversion from ${fromFormat} to ${toFormat} is not supported.`);
 }
 
-export default { jsonToCsv, csvToJson, jsonToXml, xmlToJson, convertData };
+// export default { jsonToCsv, csvToJson, jsonToXml, xmlToJson, convertData };
